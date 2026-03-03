@@ -9,7 +9,7 @@
 **WealthTrack** is a full-stack web-based Asset Management & Portfolio Tracking System built using **Java technologies** (JDBC, JSP, Servlets, Spring Framework). It enables users to manage, monitor, and analyze their financial assets — including Equities, ETFs, Crypto, Real Estate, Cash, and Liabilities — all from a unified dashboard.
 
 **Technology Stack:** Java (JDBC → JSP → Servlets → Spring Framework)  
-**Database:** MySQL  
+**Database:** PostgreSQL  
 **Frontend:** JSP + HTML/CSS/JavaScript (with Chart.js for graphs)  
 **Server:** Apache Tomcat
 
@@ -130,7 +130,7 @@
 | **Security** | Password hashing, SQL injection prevention (PreparedStatements), XSS protection |
 | **Performance** | Queries should execute < 2 seconds; use connection pooling |
 | **Code Architecture** | MVC pattern — Model (Java Beans), View (JSP), Controller (Servlets/Spring Controllers) |
-| **Database** | MySQL with normalized schema (3NF minimum) |
+| **Database** | PostgreSQL with normalized schema (3NF minimum) |
 | **Session Handling** | Server-side session management with timeout |
 | **Error Handling** | Custom error pages (404, 500), user-friendly error messages |
 | **Logging** | Server-side logging for debugging (using `java.util.logging` or Log4j) |
@@ -172,8 +172,8 @@
 | Layer | Technology |
 |-------|-----------|
 | **Language** | Java (JDK 8+) |
-| **Database** | MySQL 8.0 |
-| **Database Connectivity** | JDBC (initially) → Spring JDBC Template (later phase) |
+| **Database** | PostgreSQL 15+ |
+| **Database Connectivity** | JDBC (initially) → Hibernate → Spring ORM (later phases) |
 | **Frontend Views** | JSP (JavaServer Pages) + JSTL |
 | **Styling** | CSS3 + JavaScript (Chart.js for graphs) |
 | **Backend Controllers** | Servlets (initially) → Spring MVC Controllers (later phase) |

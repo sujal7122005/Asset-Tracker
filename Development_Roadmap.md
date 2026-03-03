@@ -7,33 +7,37 @@
 ## Phase Overview
 
 ```
-Phase 1: Database Schema Design (MySQL)
+Phase 1: Database Schema Design (PostgreSQL)
     ↓
 Phase 2: JDBC — Data Access Layer
     ↓
-Phase 3: JSP — Frontend Views
+Phase 3: Servlets — Web-based Controller
     ↓
-Phase 4: Servlets — Controller & Business Logic
+Phase 4: JSP — Frontend Views
     ↓
-Phase 5: Spring Framework — Refactoring to Spring MVC
+Phase 5: JSF Framework
     ↓
-Phase 6: Integration, Testing & Final Polish
+Phase 6: Custom Tags + Hibernate ORM
+    ↓
+Phase 7: Spring MVC — Multi-tier Architecture
+    ↓
+Phase 8: Integration, Testing & Final Polish
 ```
 
 ---
 
-## 📌 Phase 1 — Database Schema Design (MySQL)
+## 📌 Phase 1 — Database Schema Design (PostgreSQL)
 **Duration:** ~2–3 days  
-**Goal:** Design and create the complete MySQL database schema.
+**Goal:** Design and create the complete PostgreSQL database schema.
 
 ### Tasks
-- [ ] Install and configure MySQL Server
+- [ ] Install and configure PostgreSQL Server
 - [ ] Create the database: `wealthtrack_db`
 - [ ] Create the following tables:
 
 | Table | Purpose |
 |-------|---------|
-| `users` | Store registered user details (id, name, email, phone, password_hash, created_at, updated_at) |
+| `users` | Store registered user details (user_id SERIAL, name, email, phone, password_hash, created_at) |
 | `asset_categories` | Lookup table for asset types (Equities, ETF, Crypto, Real Estate, Cash, Bonds) |
 | `assets` | Store individual assets per user (id, user_id FK, name, ticker_symbol, category_id FK, current_price, added_date) |
 | `transactions` | Record buy/sell/dividend transactions (id, asset_id FK, user_id FK, type, quantity, price_per_unit, total_amount, commission, transaction_date, status) |
@@ -59,7 +63,7 @@ Phase 6: Integration, Testing & Final Polish
 
 ### Tasks
 - [ ] Set up Java project structure (Maven-based)
-- [ ] Add MySQL JDBC Connector dependency (`mysql-connector-java`)
+- [ ] Add PostgreSQL JDBC driver dependency (`postgresql`)
 - [ ] Create `DBConnection.java` — Database connection utility class using `DriverManager` / Connection Pooling
 - [ ] Create **Model/Bean classes** (POJOs):
   - `User.java`
