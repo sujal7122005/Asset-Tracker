@@ -24,7 +24,7 @@ Asset Tracker helps you keep a record of all your assets in one place. You can a
 
 ## Project Status
 
-🚧 **Under Development** — This project is in the early stages. Features and documentation will be updated as the project progresses.
+ **Under Development** — This project is in the early stages. Features and documentation will be updated as the project progresses.
 
 ## License
 
