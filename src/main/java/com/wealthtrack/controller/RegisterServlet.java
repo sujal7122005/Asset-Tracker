@@ -4,9 +4,9 @@ import com.wealthtrack.dao.UserDAO;
 import com.wealthtrack.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/register")

@@ -4,9 +4,9 @@ import com.wealthtrack.dao.AssetDAO;
 import com.wealthtrack.dao.PortfolioDAO;
 import com.wealthtrack.model.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,8 +19,12 @@ public class PortfolioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         int userId = user.getUserId();
 
         try {
@@ -38,6 +42,9 @@ public class PortfolioServlet extends HttpServlet {
 
             // Portfolio summary for cards
             PortfolioSummary summary = portfolioDAO.getSummary(userId);
+            if (summary == null) {
+                summary = new PortfolioSummary();
+            }
             request.setAttribute("summary", summary);
             request.setAttribute("totalAssets", assets.size());
 

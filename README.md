@@ -81,7 +81,7 @@ A full-stack web-based **Asset Management & Portfolio Tracking System** built us
 | Layer | Technology |
 |-------|-----------|
 | **Language** | Java (JDK 8+) |
-| **Database** | MySQL 8.0 |
+| **Database** | PostgreSQL 14+ |
 | **Database Connectivity** | JDBC with PreparedStatements |
 | **Frontend Views** | JSP (JavaServer Pages) + JSTL |
 | **Styling** | CSS3 + JavaScript |
@@ -174,7 +174,7 @@ Make sure you have the following installed on your system:
 | Software | Version | Download Link |
 |----------|---------|---------------|
 | **JDK** | 8 or higher | [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://adoptium.net/) |
-| **MySQL** | 8.0+ | [MySQL Downloads](https://dev.mysql.com/downloads/installer/) |
+| **PostgreSQL** | 14+ | [PostgreSQL Downloads](https://www.postgresql.org/download/) |
 | **Apache Tomcat** | 9.0+ | [Tomcat Downloads](https://tomcat.apache.org/download-90.cgi) |
 | **Maven** | 3.6+ | [Maven Downloads](https://maven.apache.org/download.cgi) |
 
@@ -187,63 +187,107 @@ cd Asset-Tracker
 
 ### Step 2: Set Up the Database
 
-1. Open MySQL command line or MySQL Workbench
-2. Run the schema file to create the database and tables:
+1. Create the `wealthtrack_db` database:
 
-```sql
-source sql/schema.sql;
+```bash
+psql -U postgres -c "CREATE DATABASE wealthtrack_db;"
 ```
 
-3. Load the sample/seed data for testing:
+2. Run the schema file to create all tables, indexes, and triggers:
 
-```sql
-source sql/seed-data.sql;
+```bash
+psql -U postgres -d wealthtrack_db -f sql/schema.sql
 ```
 
-> This creates the `wealthtrack_db` database with 7 tables and populates it with a sample user and 14 assets.
+> This creates 7 tables (`users`, `asset_categories`, `assets`, `transactions`, `portfolio_summary`, `documents`, `activity_log`) along with all indexes and `updated_at` triggers.
 
 ### Step 3: Configure Database Connection
 
-Open `src/main/java/com/wealthtrack/util/DBConnection.java` and update the connection details to match your MySQL setup:
+Open `src/main/java/com/wealthtrack/util/DBConnection.java` and update the credentials to match your PostgreSQL setup:
 
 ```java
-private static final String URL = "jdbc:mysql://localhost:3306/wealthtrack_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-private static final String USER = "root";         // ← Your MySQL username
-private static final String PASSWORD = "root";      // ← Your MySQL password
+private static final String URL      = "jdbc:postgresql://localhost:5432/wealthtrack_db";
+private static final String USER     = "postgres";   // ← Your PostgreSQL username
+private static final String PASSWORD = "postgres";   // ← Your PostgreSQL password
 ```
 
 ### Step 4: Build the Project with Maven
 
 ```bash
-mvn clean package
+mvn clean package -DskipTests
 ```
 
 This will:
-- Download all dependencies (Servlet API, JSTL, MySQL Connector, BCrypt, Chart.js, etc.)
+- Download all dependencies (Servlet API, JSTL, PostgreSQL JDBC driver, BCrypt, Gson, etc.)
 - Compile the Java source files
 - Package everything into `target/wealthtrack.war`
 
 ### Step 5: Deploy to Apache Tomcat
 
-**Option A — Manual Deployment:**
-1. Copy `target/wealthtrack.war` to Tomcat's `webapps/` directory
-2. Start Tomcat:
+#### ⚡ Option A — IntelliJ IDEA (Recommended)
+
+> **Note:** Tomcat run configuration requires **IntelliJ IDEA Ultimate**. Community Edition users should use Option C (Maven Plugin) below.
+
+**5.1 — Download Tomcat**
+- Go to: https://tomcat.apache.org/download-10.cgi
+- Download: **64-bit Windows zip**
+- Extract to a simple path like `C:\tomcat`
+
+**5.2 — Add Tomcat to IntelliJ**
+1. Go to **File → Settings → Build, Execution, Deployment → Application Servers**
+2. Click **`+`** → Select **Tomcat Server**
+3. Set **Tomcat Home** to `C:\tomcat`
+4. Click **OK**
+
+**5.3 — Create a Run Configuration**
+1. Click **"Add Configuration..."** (top right, next to ▶ Run button)
+2. Click **`+`** → **Tomcat Server → Local**
+3. Under the **Server** tab:
+   - **Application server:** Select the Tomcat you just added
+   - **HTTP port:** `8080`
+4. Under the **Deployment** tab:
+   - Click **`+`** → **Artifact...**
+   - Select **`wealthtrack:war exploded`**
+   - Set **Application context** to `/wealthtrack`
+5. Click **OK**
+6. Press ▶ **Run** — Tomcat starts and browser auto-opens!
+
+---
+
+#### 🔧 Option B — Maven Tomcat Plugin (IntelliJ Community / No IDE Config)
+
+Add this to your `pom.xml` inside `<plugins>`:
+
+```xml
+<plugin>
+    <groupId>org.apache.tomcat.maven</groupId>
+    <artifactId>tomcat7-maven-plugin</artifactId>
+    <version>2.2</version>
+    <configuration>
+        <port>8080</port>
+        <path>/wealthtrack</path>
+    </configuration>
+</plugin>
+```
+
+Then run:
+```bash
+mvn tomcat7:run
+```
+
+---
+
+#### 📦 Option C — Manual WAR Deployment
+
+1. Build the WAR:
    ```bash
-   # Windows
-   %CATALINA_HOME%\bin\startup.bat
-
-   # Linux/Mac
-   $CATALINA_HOME/bin/startup.sh
+   mvn clean package -DskipTests
    ```
-
-**Option B — Deploy via Tomcat Manager:**
-1. Open `http://localhost:8080/manager/html`
-2. Upload the `wealthtrack.war` file using the "WAR file to deploy" section
-
-**Option C — Run from IDE (Eclipse/IntelliJ):**
-1. Import as a Maven project
-2. Configure Tomcat server in your IDE
-3. Right-click project → Run on Server
+2. Copy `target/wealthtrack.war` → `C:\tomcat\webapps\`
+3. Start Tomcat:
+   ```bash
+   C:\tomcat\bin\startup.bat
+   ```
 
 ### Step 6: Access the Application
 
@@ -253,14 +297,9 @@ Open your browser and navigate to:
 http://localhost:8080/wealthtrack/login
 ```
 
-### Step 7: Login with Test Credentials
+### Step 7: Login / Register
 
-| Field | Value |
-|-------|-------|
-| **Email** | `alex@wealthtrack.com` |
-| **Password** | `Test@1234` |
-
-> You can also create a new account using the **Sign up** link on the login page.
+Create a new account using the **Sign up** link on the login page, or seed your own test data directly via `psql`.
 
 ---
 
@@ -308,7 +347,7 @@ The application uses **7 tables** in the `wealthtrack_db` database:
 
 ## 📝 Project Status
 
-✅ **Phase 1** — Database Schema Design (MySQL) — Complete  
+✅ **Phase 1** — Database Schema Design (PostgreSQL) — Complete  
 ✅ **Phase 2** — JDBC Data Access Layer — Complete  
 ✅ **Phase 3** — JSP Frontend Views — Complete  
 ✅ **Phase 4** — Servlets (Controllers & Business Logic) — Complete  

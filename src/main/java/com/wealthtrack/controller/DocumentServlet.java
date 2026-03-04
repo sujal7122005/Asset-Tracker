@@ -3,10 +3,10 @@ package com.wealthtrack.controller;
 import com.wealthtrack.dao.DocumentDAO;
 import com.wealthtrack.model.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,8 +22,12 @@ public class DocumentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
         try {
             List<Document> documents = documentDAO.getDocsByUser(user.getUserId());
@@ -39,8 +43,12 @@ public class DocumentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
         try {
             Part filePart = request.getPart("file");

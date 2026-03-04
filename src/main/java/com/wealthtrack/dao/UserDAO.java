@@ -8,18 +8,16 @@ import java.sql.*;
 public class UserDAO {
 
     public User register(User user) throws SQLException {
-        String sql = "INSERT INTO users (name, email, phone, password_hash) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, phone, password_hash) VALUES (?, ?, ?, ?) RETURNING user_id";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPhone());
             ps.setString(4, user.getPasswordHash());
-            ps.executeUpdate();
-
-            ResultSet rs = ps.getGeneratedKeys();
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user.setUserId(rs.getInt(1));
+                user.setUserId(rs.getInt("user_id"));
             }
             // Create default portfolio summary
             createDefaultPortfolio(conn, user.getUserId());
@@ -35,18 +33,6 @@ public class UserDAO {
         }
     }
 
-    public User login(String email, String passwordHash) throws SQLException {
-        String sql = "SELECT * FROM users WHERE email = ?";
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return mapUser(rs);
-            }
-        }
-        return null;
-    }
 
     public User getById(int userId) throws SQLException {
         String sql = "SELECT * FROM users WHERE user_id = ?";

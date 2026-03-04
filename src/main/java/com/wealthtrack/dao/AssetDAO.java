@@ -11,9 +11,9 @@ import java.util.List;
 public class AssetDAO {
 
     public boolean addAsset(Asset asset) throws SQLException {
-        String sql = "INSERT INTO assets (user_id, name, ticker_symbol, category_id, current_price, purchase_price, quantity, purchase_date, commission, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO assets (user_id, name, ticker_symbol, category_id, current_price, purchase_price, quantity, purchase_date, commission, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING asset_id";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, asset.getUserId());
             ps.setString(2, asset.getName());
             ps.setString(3, asset.getTickerSymbol());
@@ -24,12 +24,9 @@ public class AssetDAO {
             ps.setDate(8, asset.getPurchaseDate());
             ps.setBigDecimal(9, asset.getCommission());
             ps.setString(10, asset.getNotes());
-            int rows = ps.executeUpdate();
-            if (rows > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    asset.setAssetId(rs.getInt(1));
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                asset.setAssetId(rs.getInt("asset_id"));
                 return true;
             }
             return false;

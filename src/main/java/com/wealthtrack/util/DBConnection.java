@@ -6,16 +6,16 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/wealthtrack_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:postgresql://localhost:5432/wealthtrack_db";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "admin";
+    private static final String DRIVER = "org.postgresql.Driver";
 
     static {
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
-            System.err.println("MySQL JDBC Driver not found: " + e.getMessage());
+            System.err.println("PostgreSQL JDBC Driver not found: " + e.getMessage());
         }
     }
 

@@ -3,7 +3,8 @@
 -- Sample data for testing and development
 -- ============================================
 
-USE wealthtrack_db;
+-- Connect to wealthtrack_db before running:
+--   psql -U postgres -d wealthtrack_db -f seed-data.sql
 
 -- ============================================
 -- Insert Asset Categories

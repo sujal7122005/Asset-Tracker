@@ -4,9 +4,9 @@ import com.wealthtrack.dao.UserDAO;
 import com.wealthtrack.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/settings")
@@ -23,8 +23,12 @@ public class SettingsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+        if (session == null || user == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         String action = request.getParameter("action");
 
         try {
