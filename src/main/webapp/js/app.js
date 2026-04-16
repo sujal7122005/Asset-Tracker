@@ -160,15 +160,6 @@ function initAssetChart() {
     });
 }
 
-// ── Period Toggle ──
-function updateChart(period) {
-    const btns = document.querySelectorAll('.period-toggle button');
-    btns.forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    // In production, fetch new data based on period and re-render chart
-    console.log('Chart period changed to: ' + period);
-}
-
 // ── Form Validation ──
 document.addEventListener('DOMContentLoaded', function () {
     // Login form validation

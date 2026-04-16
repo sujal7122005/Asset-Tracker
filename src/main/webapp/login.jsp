@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group">
-                <label for="password">Password <a href="${pageContext.request.contextPath}/forgot-password.jsp">Forgot Password?</a></label>
+                <label for="password">Password</label>
                 <div class="input-wrapper">
                     <span class="input-icon"><i class="fas fa-lock"></i></span>
                     <input type="password" id="password" name="password" placeholder="••••••••••" required>
@@ -52,21 +52,10 @@
             <button type="submit" class="btn btn-primary">Secure Login</button>
         </form>
 
-        <div class="divider">Or continue with</div>
-
-        <div class="social-btns">
-            <button class="social-btn"><i class="fab fa-google"></i> Google</button>
-            <button class="social-btn"><i class="fab fa-apple"></i> Apple ID</button>
-        </div>
-
         <div class="auth-footer">
             <span class="security"><i class="fas fa-lock"></i> 256-bit SSL Encrypted</span>
             <span class="signup-link">No account? <a href="${pageContext.request.contextPath}/register">Sign up</a></span>
         </div>
-    </div>
-
-    <div class="auth-bottom-links">
-        <a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a> • <a href="#">Help Center</a>
     </div>
 </div>
 

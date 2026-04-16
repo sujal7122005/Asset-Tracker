@@ -71,12 +71,6 @@
                 <div class="card">
                     <div class="card-title">
                         <h3>Portfolio Performance</h3>
-                        <div class="period-toggle">
-                            <button onclick="updateChart('1M')">1M</button>
-                            <button class="active" onclick="updateChart('6M')">6M</button>
-                            <button onclick="updateChart('1Y')">1Y</button>
-                            <button onclick="updateChart('ALL')">ALL</button>
-                        </div>
                     </div>
                     <div class="chart-area">
                         <canvas id="performanceChart"></canvas>

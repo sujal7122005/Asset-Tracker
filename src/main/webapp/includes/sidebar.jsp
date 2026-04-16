@@ -22,11 +22,4 @@
             <span class="nav-icon"><i class="fas fa-cog"></i></span> Settings
         </a>
     </nav>
-    <div class="sidebar-user">
-        <div class="user-avatar">${sessionScope.user.initials}</div>
-        <div class="user-info">
-            <h4>${sessionScope.user.name}</h4>
-            <p>Premium Member</p>
-        </div>
-    </div>
 </aside>

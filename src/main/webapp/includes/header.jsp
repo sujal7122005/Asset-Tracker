@@ -10,10 +10,6 @@
         </c:if>
     </div>
     <div class="header-actions">
-        <button class="notification-btn" id="notifBtn" title="Notifications">
-            <i class="far fa-bell"></i>
-            <span class="badge"></span>
-        </button>
         <a href="${pageContext.request.contextPath}/settings" class="user-menu" title="Profile">${sessionScope.user.initials}</a>
     </div>
 </header>

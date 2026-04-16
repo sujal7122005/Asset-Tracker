@@ -27,17 +27,19 @@
                 <p>Manage and track your detailed asset allocation across all accounts.</p>
             </div>
             <div class="header-actions">
-                <div class="search-bar" style="width:220px">
-                    <span class="search-icon"><i class="fas fa-search"></i></span>
-                    <input type="text" id="searchHoldings" placeholder="Search holdings..." value="${searchQuery}" onkeyup="filterTable()">
-                </div>
-                <a href="${pageContext.request.contextPath}/asset/add" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Asset</a>
-                <button class="notification-btn"><i class="far fa-bell"></i><span class="badge"></span></button>
                 <a href="${pageContext.request.contextPath}/settings" class="user-menu">${sessionScope.user.initials}</a>
             </div>
         </header>
 
         <div class="page-content">
+            <div class="portfolio-toolbar">
+                <div class="search-bar portfolio-search">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                    <input type="text" id="searchHoldings" placeholder="Search portfolio..." value="${searchQuery}" onkeyup="filterTable()">
+                </div>
+                <a href="${pageContext.request.contextPath}/asset/add" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Asset</a>
+            </div>
+
             <!-- Summary Cards -->
             <div class="summary-cards">
                 <div class="summary-card">
