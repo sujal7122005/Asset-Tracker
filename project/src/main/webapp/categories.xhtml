@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <title>Asset Category CRUD - JSF</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+<div class="container">
+    <h1>Asset Category CRUD (JSF)</h1>
+
+    <h:messages globalOnly="true" infoClass="msg info" warnClass="msg warn" errorClass="msg error"/>
+
+    <div class="card">
+        <h2>#{assetCategoryBean.editMode ? 'Edit Category' : 'Add Category'}</h2>
+        <h:form>
+            <h:panelGrid columns="2" styleClass="form-grid" columnClasses="label-col,input-col">
+                <h:outputLabel for="categoryName" value="Category Name"/>
+                <h:inputText id="categoryName"
+                             value="#{assetCategoryBean.formCategory.categoryName}"
+                             required="true"
+                             requiredMessage="Category name is required."/>
+
+                <h:outputLabel for="iconClass" value="Icon Class"/>
+                <h:inputText id="iconClass" value="#{assetCategoryBean.formCategory.iconClass}"/>
+
+                <h:outputLabel for="colorCode" value="Color Code"/>
+                <h:inputText id="colorCode" value="#{assetCategoryBean.formCategory.colorCode}"/>
+            </h:panelGrid>
+
+            <div class="actions">
+                <h:commandButton value="#{assetCategoryBean.editMode ? 'Update' : 'Save'}"
+                                 action="#{assetCategoryBean.save}"
+                                 styleClass="btn"/>
+                <h:commandButton value="Clear"
+                                 action="#{assetCategoryBean.clearForm}"
+                                 immediate="true"
+                                 styleClass="btn secondary"/>
+            </div>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h2>Category List</h2>
+        <h:form>
+            <h:dataTable value="#{assetCategoryBean.categories}" var="category" styleClass="table"
+                         rendered="#{not empty assetCategoryBean.categories}">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{category.categoryId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{category.categoryName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Icon</f:facet>
+                    #{category.iconClass}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Color</f:facet>
+                    #{category.colorCode}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:commandButton value="Edit"
+                                     action="#{assetCategoryBean.edit(category)}"
+                                     styleClass="btn small secondary"/>
+                    <h:commandButton value="Delete"
+                                     action="#{assetCategoryBean.delete(category.categoryId)}"
+                                     styleClass="btn small danger"
+                                     onclick="return confirm('Delete this category?');"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:panelGroup rendered="#{empty assetCategoryBean.categories}">
+            <p>No category records found.</p>
+        </h:panelGroup>
+    </div>
+
+    <h:link outcome="index" value="Back to Home"/>
+</div>
+</h:body>
+</html>

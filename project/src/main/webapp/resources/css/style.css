@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+.container {
+    max-width: 980px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+h1 {
+    margin-bottom: 8px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.form-grid {
+    width: 100%;
+    gap: 8px;
+}
+
+.form-grid input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.actions {
+    margin-top: 12px;
+}
+
+.btn {
+    display: inline-block;
+    border: none;
+    background: #2563eb;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.btn:hover {
+    background: #1d4ed8;
+}
+
+.btn.secondary {
+    background: #64748b;
+}
+
+.btn.secondary:hover {
+    background: #475569;
+}
+
+.btn.danger {
+    background: #dc2626;
+}
+
+.btn.danger:hover {
+    background: #b91c1c;
+}
+
+.btn.small {
+    padding: 6px 10px;
+    margin: 2px;
+    font-size: 13px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background: #f1f5f9;
+}
+
+.msg {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.msg.info {
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.msg.warn {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.msg.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
